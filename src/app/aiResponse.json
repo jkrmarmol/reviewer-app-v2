@@ -1,0 +1,24 @@
+[
+  {
+    "problem": "Gate ABC is a quarter circle **20 ft** wide into the paper.",
+    "questions": {
+      "1": {
+        "question": "Compute the horizontal hydrostatic force (lbs) on the gate.",
+        "choices": {
+          "a": "37,000",
+          "b": "13,000",
+          "c": "114,400",
+          "d": "25,000",
+          "e": "None"
+        }
+      }
+    },
+    "solution": {
+      "1": {
+        "question": "Compute the horizontal hydrostatic force (lbs) on the gate.",
+        "solution": "* **Horizontal hydrostatic force:**\nFH = γw * A * yc = 62.4 * (1/4 * π * 4² * 20) * (4 * 4 / (3 * π)) = 114,400 lbs",
+        "correctAnswer": "c"
+      }
+    }
+  }
+]

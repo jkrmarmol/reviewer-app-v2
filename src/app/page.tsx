@@ -1,113 +1,170 @@
-import Image from "next/image";
+"use client";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea";
+import { useState } from "react";
+import axios, { AxiosError } from "axios";
+import QuestionsDialog from "@/components/ui/questions-dialog";
+import aiJson from "./aiResponse.json";
+import { useForm } from "react-hook-form";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import Loader from "@/components/loader";
+import { Loader2 } from "lucide-react";
+
+const formSchema = z.object({
+  diagramFigure: z.any(),
+  problem: z.string(),
+  questions: z.string(),
+});
 
 export default function Home() {
+  const [modal, setModal] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [data, setData] = useState<any>({
+    data: [],
+    images: "",
+  });
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+  });
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      setLoading(true);
+      const formData = new FormData();
+      formData.append("diagramFigure", values.diagramFigure);
+      formData.append("problem", values.problem);
+      formData.append("questions", values.questions);
+      const response = await axios.post("/api/gemini", formData);
+      const responseJson = await response.data;
+      setLoading(false);
+      setModal(true);
+      setData((prev: any) => ({ ...prev, data: responseJson }));
+    } catch (err) {
+      if (AxiosError) {
+      }
+    }
+  }
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+    <div className=" border border-red-500 h-screen flex justify-center items-center flex-col">
+      <QuestionsDialog aiResponse={data.data} open={modal} setModal={setModal} images={data.images} />
+      <Card className="w-[350px]">
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <CardHeader>
+              <CardTitle>Reviewer App</CardTitle>
+              <CardDescription>Generate the same reviewer exam by simply inserting sample problem </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <FormField
+                control={form.control}
+                name="diagramFigure"
+                render={({ field: { value, onChange, ...fieldProps } }) => (
+                  <FormItem>
+                    <FormLabel>Diagram/Figure</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...fieldProps}
+                        placeholder="Picture"
+                        type="file"
+                        accept="image/*, application/pdf"
+                        onChange={(e) => {
+                          const files = (e.target as HTMLInputElement).files;
+                          if (files && files.length > 0) {
+                            const file = files[0];
+                            const objectUrl = URL.createObjectURL(file);
+                            console.log(objectUrl);
+                            setData((prev: any) => ({ ...prev, images: objectUrl }));
+                            // Use onChange to update the form value with the file
+                            onChange(file);
+                            // You can also store or display the objectUrl as needed
+                          }
+                        }}
+                      />
+                      {/* <Input type="image" placeholder="sdfsdf" onChange={(e) => console.log(e)} {...field} /> */}
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+              <FormField
+                control={form.control}
+                name="problem"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Problem</FormLabel>
+                    <FormControl>
+                      {/* <Input placeholder="shadcn" {...field} /> */}
+                      <Textarea placeholder="Type you problem here." {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
+              <FormField
+                control={form.control}
+                name="questions"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Questions</FormLabel>
+                    <FormControl>
+                      <Textarea placeholder="Type you questions here." {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+              {/* <form>
+            <div className="grid w-full items-center gap-4">
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="diagramFigure">Diagram/Figure</Label>
+                <Input
+                  id="diagramFigure"
+                  type="file"
+                  onChange={(e) => {
+                    console.log(e.target.files);
+                    setData((prev) => ({ ...prev, diagramFigure: e.target?.files }));
+                  }}
+                />
+              </div>
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="problem">Problem</Label>
+                <Input
+                  id="problem"
+                  placeholder=""
+                  onChange={(e) => setData((prev) => ({ ...prev, problem: e.target?.value }))}
+                />
+              </div>
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="questions">Questions</Label>
+                <Textarea
+                  placeholder="Type you questions here."
+                  onChange={(e) => setData((prev) => ({ ...prev, questions: e.target?.value }))}
+                />
+              </div>
+            </div>
+          </form> */}
+            </CardContent>
+            <CardFooter className="flex justify-between">
+              {loading ? (
+                <Button disabled>
+                  <Loader2 className=" animate-spin" />
+                </Button>
+              ) : (
+                <Button type="submit">Generate</Button>
+              )}
+            </CardFooter>
+          </form>
+        </Form>
+      </Card>
+    </div>
   );
 }
