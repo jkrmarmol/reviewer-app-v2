@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from "@google/generative-ai";
 import { GoogleAIFileManager } from "@google/generative-ai/server";
 import { Formidable, Files } from "formidable";
+import path from "path";
 
 export const config = {
   api: {
@@ -77,9 +78,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   const diagramFigure = files.diagramFigure && files.diagramFigure[0];
   if (req.method === "POST") {
+    console.log(path.resolve(process.cwd(), "assets/aa5fdaf7-3e1f-409b-8e41-eb2ecc62b3b6.png"));
     const aiFiles = [
-      await uploadToGemini("pages/assets/aa5fdaf7-3e1f-409b-8e41-eb2ecc62b3b6.png", "image/png"),
-      await uploadToGemini("pages/assets/c72aebe0-fae7-45ef-a5aa-61cc95f85323.png", "image/png"),
+      await uploadToGemini(path.resolve(process.cwd(), "assets/aa5fdaf7-3e1f-409b-8e41-eb2ecc62b3b6.png"), "image/png"),
+      await uploadToGemini(path.resolve(process.cwd(), "assets/c72aebe0-fae7-45ef-a5aa-61cc95f85323.png"), "image/png"),
     ];
     if (diagramFigure) {
       aiFiles.push(await uploadToGemini(diagramFigure.filepath, diagramFigure.mimetype));
