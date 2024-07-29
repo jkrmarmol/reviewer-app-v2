@@ -50,7 +50,7 @@ export default function QuestionsDialog({
         <Button variant="outline">Generated Questions</Button>
       </DialogTrigger> */}
 
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] overflow-y-scroll max-h-screen">
         <DialogHeader>
           <DialogTitle>Generated Problems</DialogTitle>
         </DialogHeader>

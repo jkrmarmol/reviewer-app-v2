@@ -1,0 +1,36 @@
+[
+  {
+    "problem": "A concrete dam retaining water is shown. If the specific weight of concrete is 23.5 kN/m3, change the water level to **4.5m**, and the width of the dam to **3.5 m**. ",
+    "questions": {
+      "1": {
+        "question": "Find the factor of safety against sliding.",
+        "choices": { "a": "0.8", "b": "1.34", "c": "1.8", "d": "2.4" }
+      },
+      "2": {
+        "question": "Find the factor of safety against overturning if the coeff. of friction is 0.48.",
+        "choices": { "a": "0.98", "b": "1.25", "c": "1.54", "d": "3.42" }
+      },
+      "3": {
+        "question": "Find the max. and min. pressure intensity (in kPa) at the base of the dam.",
+        "choices": { "a": "39.67, 14.71", "b": "44.14, 19.62", "c": "58.85, 29.42", "d": "73.4 kN/m2, 173.34 kN/m2." }
+      }
+    },
+    "solution": {
+      "1": {
+        "question": "Find the factor of safety against sliding.",
+        "solution": "* **Forces:**\n    * **P:** Water pressure on the dam = γ * h * A = 9.79 * 3 * 6 * 1 = 176.20 kN\n    * **w1:** Weight of the concrete above the waterline = 2 * 7 * 1 * 23.5 = 164.5 kN\n    * **w2:** Weight of the concrete below the waterline = 2 * 7 * 1 * 23.5 = 329 kN\n    * **Ry:** Total vertical reaction force = w1 + w2 = 164.5 + 329 = 493.5 kN\n* **Factor of Safety:**    * F.S. = (μ * Ry) / P = (0.48 * 493.5) / 176.20 = 1.34",
+        "correctAnswer": "b"
+      },
+      "2": {
+        "question": "Find the factor of safety against overturning if the coeff. of friction is 0.48.",
+        "solution": "* **Moments:**\n    * **O.M.:** Overturning Moment = P * 2 = 176.20 * 2 = 352.4 kN.m\n    * **R.M.:** Resisting Moment = w1 * 1.333 + w2 * 3 = 164.5 * 1.333 + 329 * 3 = 1206 kN.m\n\n* **Factor of Safety:**\n    * F.S. = R.M. / O.M. = 1206 / 352.4 = 3.42",
+        "correctAnswer": "c"
+      },
+      "3": {
+        "question": "Find the max. and min. pressure intensity (in kPa) at the base of the dam.",
+        "solution": "* **Eccentricity:**\n    * x = (R.M. - O.M.) / Ry = (1206 - 352.4) / 493.5 = 1.73\n    * e = 2 - 1.73 = 0.27\n\n* **Minimum Pressure Intensity:**\n    * Pmin = (Ry / B) * (1 - 6e/B) = (493.5 / 4) * (1 - 6 * 0.27 / 4) = 73.4 kN/m²\n* **Maximum Pressure Intensity:**\n    * Pmax = (Ry / B) * (1 + 6e/B) = (493.5 / 4) * (1 + 6 * 0.27 / 4) = 173.34 kN/m²\n**Therefore:**\n* The factor of safety against sliding is 1.34.\n* The factor of safety against overturning is 3.42.\n* The maximum pressure intensity is 173.34 kN/m².\n* The minimum pressure intensity is 73.4 kN/m². ",
+        "correctAnswer": "d"
+      }
+    }
+  }
+]

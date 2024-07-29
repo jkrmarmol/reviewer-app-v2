@@ -1,23 +1,53 @@
 [
   {
-    "problem": "Gate ABC is a quarter circle **20 ft** wide into the paper.",
+    "problem": "The diving bell has the shape of a frustum of a cone with a closed top and open bottom. It is lowered from the outside air into salt water (unit weight = 10.2 kN/m3) in an upright position. Consider atmospheric pressure. See Figure. When the water level has risen **1.50 m** inside, find the following  ",
     "questions": {
       "1": {
-        "question": "Compute the horizontal hydrostatic force (lbs) on the gate.",
+        "question": "Final volume (cubic meters).",
         "choices": {
-          "a": "37,000",
-          "b": "13,000",
-          "c": "114,400",
-          "d": "25,000",
+          "a": "11.5",
+          "b": "12.6",
+          "c": "13.7",
+          "d": "14.8",
+          "e": "None"
+        }
+      },
+      "2": {
+        "question": "Final pressure (kPa).",
+        "choices": {
+          "a": "119.4",
+          "b": "125.7",
+          "c": "132.0",
+          "d": "138.3",
+          "e": "None"
+        }
+      },
+      "3": {
+        "question": "Height “h” (meters) as illustrated on Figure.",
+        "choices": {
+          "a": "1.87",
+          "b": "2.15",
+          "c": "2.43",
+          "d": "2.71",
           "e": "None"
         }
       }
     },
     "solution": {
       "1": {
-        "question": "Compute the horizontal hydrostatic force (lbs) on the gate.",
-        "solution": "* **Horizontal hydrostatic force:**\nFH = γw * A * yc = 62.4 * (1/4 * π * 4² * 20) * (4 * 4 / (3 * π)) = 114,400 lbs",
-        "correctAnswer": "c"
+        "question": "Final volume (cubic meters).",
+        "solution": "* **Final volume:**\nV = (1/3)πh(R² + Rr + r²) = (1/3)π(1.50)[(1.50)² + (1.50)(1.00) + (1.00)²] = 11.78 m³",
+        "correctAnswer": "e"
+      },
+      "2": {
+        "question": "Final pressure (kPa).",
+        "solution": "* **Final pressure (absolute):**\nPabs = Patm + γh = 101.3 + (10.2 * 1.50) = 116.8 kPa",
+        "correctAnswer": "e"
+      },
+      "3": {
+        "question": "Height “h” (meters) as illustrated on Figure.",
+        "solution": "* **From similar triangles:**\n(1.50 - h) / (1.50 - 1.00) = 1.50 / 1.00\nh = 0.75 m",
+        "correctAnswer": "e"
       }
     }
   }

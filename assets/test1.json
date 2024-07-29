@@ -1,0 +1,39 @@
+[
+  {
+    "problem": "An open cylinder 40 cm in diameter and 60 cm high containing water is rotated about its vertical axis at a speed of 240 revolutions per minute.",
+    "questions": {
+      "1": {
+        "question": "If the cylinder is brought to rest now, what would be the depth (cm) of water in it?",
+        "choices": {
+          "a": "45",
+          "b": "50",
+          "c": "55",
+          "d": "60",
+          "e": "None"
+        }
+      },
+      "2": {
+        "question": "If the speed is increased to 300 revolutions per minute, how much water will be left in the cylinder in liters?",
+        "choices": {
+          "a": "6.28",
+          "b": "7.85",
+          "c": "9.42",
+          "d": "11.00",
+          "e": "None"
+        }
+      }
+    },
+    "solution": {
+      "1": {
+        "question": "If the cylinder is brought to rest now, what would be the depth (cm) of water in it?",
+        "solution": "* **The depth of water in the cylinder will be the same as the initial height of the water when the cylinder is at rest.**\n* **Therefore, the depth of water will be 60 cm.**",
+        "correctAnswer": "d"
+      },
+      "2": {
+        "question": "If the speed is increased to 300 revolutions per minute, how much water will be left in the cylinder in liters?",
+        "solution": "* **Angular velocity:**\nω = 2πN/60 = 2π(300)/60 = 10π rad/s\n* **Radius of the cylinder:**\nr = 40/2 = 20 cm = 0.2 m\n* **Height of the paraboloid:**\nh = (ω²r²)/(2g) = (10π)²(0.2)²/(2*9.81) = 0.203 m = 20.3 cm\n* **Volume of the paraboloid:**\nV = (1/2)πr²h = (1/2)π(0.2)²(0.203) = 0.0128 m³\n* **Volume of water remaining in the cylinder:**\nVremaining = πr²H - V = π(0.2)²(0.6) - 0.0128 = 0.0195 m³\n* **Volume of water remaining in liters:**\nVremaining (liters) = 0.0195 * 1000 = 19.5 liters",
+        "correctAnswer": "e"
+      }
+    }
+  }
+]
