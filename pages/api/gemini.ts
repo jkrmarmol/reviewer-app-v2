@@ -78,8 +78,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const diagramFigure = files.diagramFigure && files.diagramFigure[0];
   if (req.method === "POST") {
     const aiFiles = [
-      await uploadToGemini("assets/aa5fdaf7-3e1f-409b-8e41-eb2ecc62b3b6.png", "image/png"),
-      await uploadToGemini("assets/c72aebe0-fae7-45ef-a5aa-61cc95f85323.png", "image/png"),
+      await uploadToGemini("pages/assets/aa5fdaf7-3e1f-409b-8e41-eb2ecc62b3b6.png", "image/png"),
+      await uploadToGemini("pages/assets/c72aebe0-fae7-45ef-a5aa-61cc95f85323.png", "image/png"),
     ];
     if (diagramFigure) {
       aiFiles.push(await uploadToGemini(diagramFigure.filepath, diagramFigure.mimetype));
